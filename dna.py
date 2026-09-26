@@ -5,10 +5,23 @@ import sys
 def main():
 
     # TODO: Check for command-line usage
+    if len(sys.argv) != 3:
+        print("Command line arguments must be two!!")
 
     # TODO: Read database file into a variable
-    
+    rows = []
+
+    with open(sys.argv[1]) as datafile:
+        reader = csv.DictReader(datafile)
+        for row in reader:
+            rows.append(row)
+    print(rows)
+
     # TODO: Read DNA sequence file into a variable
+    sequence = ""
+    with open(sys.argv[2], "r") as compfile:
+        sequence = compfile.read()
+        print(sequence)
 
     # TODO: Find longest match of each STR in DNA sequence
 
