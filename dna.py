@@ -7,6 +7,7 @@ def main():
     # TODO: Check for command-line usage
     if len(sys.argv) != 3:
         print("Command line arguments must be two!!")
+        sys.exit(1)
 
     # TODO: Read database file into a variable
     rows = []
@@ -15,24 +16,35 @@ def main():
         reader = csv.DictReader(datafile)
         for row in reader:
             rows.append(row)
-    print(rows)
+    # print(rows)
 
     # TODO: Read DNA sequence file into a variable
     sequence = ""
     with open(sys.argv[2], "r") as compfile:
         sequence = compfile.read()
-        print(sequence)
+        # print(sequence)
 
     # TODO: Find longest match of each STR in DNA sequence
-    strs = rows(row[0].keys())
-    strs = rows.remove("name")
+    strs = list(rows[0].keys())
+    strs.remove("name")
 
     longest = {}
-    for key in rows:
+    for key in strs:
         longest[key] = longest_match(sequence, key)
 
     # TODO: Check database for matching profiles
+    for row in rows:
+        match = True
+        for key in strs:
+            if int(row[key]) != int(longest[key]):
+                match = False
+                break
 
+        if match:
+            print(row["name"])
+            sys.exit(0)
+    print("No match")
+    sys.exit(0)
     return
 
 
